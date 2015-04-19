@@ -1774,7 +1774,7 @@ init_mathjax();
 
 <h2>Exploratory Data Analysis</h2>
 <p>Now that I have the data loaded up, let's take a look at it. The first thing to do is plot the temperature, relative humidity, and cloud cover class from the cloud sensor data:
-<img src='http://ottostruve.github.io/figures/Cloud_Data.png' ></p>
+<img src='http://ottostruve.github.io/figures/Cloud_Data.png' width="1000"></p>
 <p>The heaviest cloud cover tends to happen at the extremes of the plot: high temperature, high humidity. That makes sense: higher temperatures mean more water vaper <em>can</em> be in the air, and higher humidity means more water vapor <em>is</em> in the air. Both will make clouds.</p>
 <p>Now, I will combine the basic data with the cloud data to get a much more in-depth view. This is again a single line of python code. Since both have datetime values as their index, the merge is done based on the time of measurement.</p>
 <div class="highlight"><pre><span class="n">merged</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">basic_data</span><span class="p">,</span> <span class="n">cloud_data</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s">&#39;left&#39;</span><span class="p">)</span>
@@ -1841,7 +1841,7 @@ init_mathjax();
 <li>The most important variables are temperature and dew point (since nothing else appears in this truncated tree).</li>
 </ol>
 <p>When I run the full tree, it ends up with 31 levels. The importance of each variable is shown below:</p>
-<p><img src="http://ottostruve.github.io/figures/Decision_Tree_Importance.png"></p>
+<p><img src="http://ottostruve.github.io/figures/Decision_Tree_Importance.png" width="500"></p>
 <p>Temperature and dew point are still the most important variables, but now the dust count and pressure show up as important too. The time derivative of temperature and relative humidity are not very useful predictors, so we will not use them for any of the final predictors. The overall cross-validation accuracy even increases a bit when we drop these variables!</p>
 <h3><a href="http://scikit-learn.org/dev/modules/ensemble.html#forests-of-randomized-trees">Random Forest Classifier</a></h3>
 <p>A random forest is an improvement upon a decision tree. Basically, a bunch of decision trees are all trained at once with random subsamples of the data. To make a prediction, the data is sent through each tree and the total probability is calculated from the ensemble. As you add more trees to the "forest," the result gets more accurate but is also more prone to over-fitting and becomes more computationally expensive. </p>
@@ -1867,7 +1867,7 @@ init_mathjax();
 <p>The drop off towards large number of neighbors is the effect of increasing bias, which is the opposite of overfitting. It is equivalent to fitting a straight line through data when you should fit a quadratic function. The best number of nearest neighbors is about 5, which is actually surprisingly small.</p>
 <h2>Finding the best estimator.</h2>
 <p>We are finally in a position to estimate the cloud cover for the missing values. The figure below shows the cross-validation accuracy of each estimator.</p>
-<p><img src="http://ottostruve.github.io/figures/Estimator_Accuracy.png"></p>
+<p><img src="http://ottostruve.github.io/figures/Estimator_Accuracy.png" width="500"></p>
 <p>The best estimator for this dataset is k-nearest neighbors, with the random forest close on its heels. The best we can do is about 91.5% accuracy, but that is good enough for my purposes. </p>
 <p>All that is left now is to fill in the missing values in the cloud data with the k-nearest neighbors estimation.</p>
 <div class="highlight"><pre><span class="c"># Get the predicted cloudiness</span>
