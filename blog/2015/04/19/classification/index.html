@@ -1868,7 +1868,7 @@ init_mathjax();
 <h2>Finding the best estimator.</h2>
 <p>We are finally in a position to estimate the cloud cover for the missing values. The figure below shows the cross-validation accuracy of each estimator.</p>
 <p><img src="http://ottostruve.github.io/figures/Estimator_Accuracy.png" width="500"></p>
-<p>The best estimator for this dataset is k-nearest neighbors, with the random forest close on its heels. The best we can do is about 91.5% accuracy, but that is good enough for my purposes. </p>
+<p>The best estimator for this dataset is k-nearest neighbors, with the random forest close on its heels. The best we can do is about 92% accuracy, but that is good enough for my purposes. </p>
 <p>All that is left now is to fill in the missing values in the cloud data with the k-nearest neighbors estimation.</p>
 <div class="highlight"><pre><span class="c"># Get the predicted cloudiness</span>
 <span class="n">X_df</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s">&#39;base-TEMP_AVG&#39;</span><span class="p">,</span> <span class="s">&#39;base-PRESS_AVG&#39;</span><span class="p">,</span> <span class="s">&#39;DEWPT_calculated&#39;</span><span class="p">,</span> <span class="s">&#39;Dust&#39;</span><span class="p">]]</span>
