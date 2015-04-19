@@ -1774,7 +1774,7 @@ init_mathjax();
 
 <h2>Exploratory Data Analysis</h2>
 <p>Now that I have the data loaded up, let's take a look at it. The first thing to do is plot the temperature, relative humidity, and cloud cover class from the cloud sensor data:
-<img src='figures/Cloud_Data.png' ></p>
+<img src='http://ottostruve.github.io/figures/Cloud_Data.png' ></p>
 <p>The heaviest cloud cover tends to happen at the extremes of the plot: high temperature, high humidity. That makes sense: higher temperatures mean more water vaper <em>can</em> be in the air, and higher humidity means more water vapor <em>is</em> in the air. Both will make clouds.</p>
 <p>Now, I will combine the basic data with the cloud data to get a much more in-depth view. This is again a single line of python code. Since both have datetime values as their index, the merge is done based on the time of measurement.</p>
 <div class="highlight"><pre><span class="n">merged</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">basic_data</span><span class="p">,</span> <span class="n">cloud_data</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s">&#39;left&#39;</span><span class="p">)</span>
