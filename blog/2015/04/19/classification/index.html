@@ -1797,7 +1797,7 @@ init_mathjax();
 </pre></div>
 
 
-<p><img src='figures/All_Vars.png'></p>
+<p><img src='http://ottostruve.github.io/figures/All_Vars.png'></p>
 <p>There is a <em>lot</em> of information in this plot. The red points are where it is very cloudy, and the blue points are clear. Let's step through a bit by variable and try to summarize.</p>
 <ul>
 <li>Lower temperatures and higher humidities correlate with cloudier weather. That is pretty expected.</li>
@@ -1829,11 +1829,11 @@ init_mathjax();
 <p>I will be using the <a href="http://scikit-learn.org/stable/modules/linear_model.html#logistic-regression">LogisticRegression</a> class in <a href="http://scikit-learn.org/stable/">scikit-learn</a> to do the actual work of fitting the data. This class uses a regularization parameter (C), which is basically just a way to keep the parameters $c_0, c_1, ...$ small and prevents over-fitting. The value to use for regularization depends on the specific data you are using, and so we again use cross-validation to choose it. In this case, there is a <a href="http://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegressionCV.html">LogisticRegressionCV</a> class that does all of that for you so I don't even need to do much of anything special.</p>
 <h3><a href="http://scikit-learn.org/dev/modules/tree.html">Decision Tree</a></h3>
 <p>A decision tree is basically just a flowchart that leads to the classification labels (in our case clear, partly cloudy, and very cloudy). Or, in programmer-speak, it is a long chain of if-then-else decision rules. An example assessing how likely a person was to have survived the Titanic is shown below.</p>
-<p><img src="images/CART_tree_titanic_survivors.png" ></p>
+<p><img src="http://ottostruve.github.io/images/CART_tree_titanic_survivors.png" ></p>
 <p>Fitting a decision tree from data is done by splitting each input variable (temperature, pressure, etc) at some value. The number of branches and numerical value of the splits are adjusted until each "leaf" only contains points from one class.</p>
 <p>The chief advantage of a decision tree is that it is very easy to interpret. For example, it is really easy to see from the above tree that the best way to survive the Titanic was to either be a woman or a young boy without many siblings. For this reason, decision trees are popular machine learning tools to provide actionable results.</p>
 <p>I will again be using scikit-learn for the <a href="http://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html">decision tree classifier</a>. The full decision tree has far too many levels to display in a blog post, but here is a version with only three levels.</p>
-<p><img src="figures/Decision_Tree.png"></p>
+<p><img src="http://ottostruve.github.io/figures/Decision_Tree.png"></p>
 <p>We immediately see that the tree picks out a couple things (which we already know):</p>
 <ol>
 <li>Clear nights occur when the temperature is high and the dew points are low (third leaf)</li>
@@ -1841,7 +1841,7 @@ init_mathjax();
 <li>The most important variables are temperature and dew point (since nothing else appears in this truncated tree).</li>
 </ol>
 <p>When I run the full tree, it ends up with 31 levels. The importance of each variable is shown below:</p>
-<p><img src="figures/Decision_Tree_Importance.png"></p>
+<p><img src="http://ottostruve.github.io/figures/Decision_Tree_Importance.png"></p>
 <p>Temperature and dew point are still the most important variables, but now the dust count and pressure show up as important too. The time derivative of temperature and relative humidity are not very useful predictors, so we will not use them for any of the final predictors. The overall cross-validation accuracy even increases a bit when we drop these variables!</p>
 <h3><a href="http://scikit-learn.org/dev/modules/ensemble.html#forests-of-randomized-trees">Random Forest Classifier</a></h3>
 <p>A random forest is an improvement upon a decision tree. Basically, a bunch of decision trees are all trained at once with random subsamples of the data. To make a prediction, the data is sent through each tree and the total probability is calculated from the ensemble. As you add more trees to the "forest," the result gets more accurate but is also more prone to over-fitting and becomes more computationally expensive. </p>
@@ -1859,15 +1859,15 @@ init_mathjax();
 
 
 <p>The cross_val_score function takes the classifier and the data, and does 3 independent cross-validation trials for each number of trees. I then save the average and standard deviation of the scores and plot them:</p>
-<p><img src="figures/RandomForest_CV.png"></p>
+<p><img src="http://ottostruve.github.io/figures/RandomForest_CV.png"></p>
 <p>So the accuracy increases with the number of trees, but begins leveling off after about 100 trees. For the final random forest classifier, I will use 100 trees.</p>
 <h3><a href="http://scikit-learn.org/dev/modules/neighbors.html#nearest-neighbors-classification">K-nearest neighbors</a></h3>
 <p>The K-nearest neighbors algorithm is pretty easy to understand: to classify a new data point, you just take several of the points with known labels closest to it, and do a majority vote. If most of the points near the data point are cloudy, for instance, then the new data point will be classified as cloudy. Unlike the other algorithms, K nearest neighbors does not build up any kind of global model that gets applied to the data. Instead, it just uses the training data itself. As with the random forest classifier, we will use cross-validation to choose the 'best' number of neighbors:</p>
-<p><img src="figures/KNN_CV.png"></p>
+<p><img src="http://ottostruve.github.io/figures/KNN_CV.png"></p>
 <p>The drop off towards large number of neighbors is the effect of increasing bias, which is the opposite of overfitting. It is equivalent to fitting a straight line through data when you should fit a quadratic function. The best number of nearest neighbors is about 5, which is actually surprisingly small.</p>
 <h2>Finding the best estimator.</h2>
 <p>We are finally in a position to estimate the cloud cover for the missing values. The figure below shows the cross-validation accuracy of each estimator.</p>
-<p><img src="figures/Estimator_Accuracy.png"></p>
+<p><img src="http://ottostruve.github.io/figures/Estimator_Accuracy.png"></p>
 <p>The best estimator for this dataset is k-nearest neighbors, with the random forest close on its heels. The best we can do is about 91.5% accuracy, but that is good enough for my purposes. </p>
 <p>All that is left now is to fill in the missing values in the cloud data with the k-nearest neighbors estimation.</p>
 <div class="highlight"><pre><span class="c"># Get the predicted cloudiness</span>
@@ -1886,10 +1886,10 @@ init_mathjax();
 <h2>Test my results!</h2>
 <p>Are you at McDonald now? Try out my results. Ideally, I would like to have a web interface, but I'm pretty sure that would require a lot more work to make a dynamic website with django or something. In lieu of that, you can use this ipython notebook, along with a pickled version of the classifier and scaler!</p>
 <ul>
-<li><a href="downloads/Predict_Clouds.ipynb">ipython notebook</a></li>
+<li><a href="http://ottostruve.github.io/downloads/Predict_Clouds.ipynb">ipython notebook</a></li>
 <li>Pickled classifier (OS-dependent, I think. Right click and save as a file to download):<ul>
-<li><a href="downloads/classifier_linux_x86_64.pkl">Linux x86_64</a></li>
-<li><a href="downloads/classifier_mac_osx.pkl">Mac OSX (coming soon)</a></li>
+<li><a href="http://ottostruve.github.io/downloads/classifier_linux_x86_64.pkl">Linux x86_64</a></li>
+<li><a href="http://ottostruve.github.io/downloads/classifier_mac_osx.pkl">Mac OSX (coming soon)</a></li>
 </ul>
 </li>
 </ul><script type= "text/javascript">
